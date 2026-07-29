@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sawera! 💖</title>
+    <!-- Google Fonts & Canvas Confetti CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #feada6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        /* Celebration Transition Layer (Prevents White Screen) */
+        #transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(255,182,193,0.95) 0%, rgba(255,105,180,0.95) 100%);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+        }
+
+        #transition-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Container Card */
+        .container {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 25px;
+            padding: 40px 25px;
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(230, 100, 140, 0.25);
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Screen Management */
+        .step {
+            display: none;
+            width: 100%;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .step.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Typography */
+        h1 {
+            color: #d63031;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: #e84393;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #4a4a4a;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .italic-text {
+            font-style: italic;
+            color: #d63031;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .small-text {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .script-font {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #e84393;
+        }
+
+        /* Input Box Styling */
+        .input-box {
+            width: 80%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 2px solid #e84393;
+            border-radius: 25px;
+            outline: none;
+            text-align: center;
+            margin-bottom: 10px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .error-msg {
+            color: #d63031;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: none;
+            margin-top: 5px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.35);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.5);
+        }
+
+        .btn-secondary {
+            background: #a4b0be;
+            box-shadow: 0 6px 20px rgba(164, 176, 190, 0.35);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            min-height: 60px;
+        }
+
+        /* Dynamic Moving NO Button */
+        #no-btn {
+            position: absolute;
+            transition: all 0.2s ease-out;
+        }
+
+        /* Emojis & Icons */
+        .big-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Age Number Animation */
+        .age-number {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #ff4757;
+            text-shadow: 3px 3px 0px #fecfef, 6px 6px 0px rgba(0,0,0,0.1);
+            animation: pulse 1.5s infinite alternate;
+            margin: 10px 0;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        /* --- REALISTIC CAKE STYLING --- */
+        .real-cake-stage {
+            position: relative;
+            width: 220px;
+            height: 180px;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .cake-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cake-half {
+            width: 90px;
+            height: 130px;
+            background: linear-gradient(to bottom, #ff758c, #ff7b54);
+            border-radius: 15px 15px 5px 5px;
+            position: relative;
+            box-shadow: inset 0 8px 0 #fff, inset 0 25px 0 #ffb3c1;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cake-left {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .cake-right {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Candle & Flame */
+        .candle {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 35px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4757 5px, #ff4757 10px);
+            border-radius: 3px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 18px;
+            background: #fffa65;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 10px #fffa65, 0 0 20px #ff9f1a;
+            animation: flicker 0.6s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); }
+            100% { transform: translateX(-50%) scale(1.2) rotate(3deg); }
+        }
+
+        /* Knife Animation */
+        .real-knife {
+            position: absolute;
+            top: -50px;
+            right: 10px;
+            font-size: 3.5rem;
+            transition: all 0.6s ease;
+            z-index: 10;
+        }
+
+        /* Slice State */
+        .sliced .cake-left {
+            transform: translateX(-25px) rotate(-5deg);
+        }
+
+        .sliced .cake-right {
+            transform: translateX(25px) rotate(5deg);
+        }
+
+        .sliced .flame {
+            display: none;
+        }
+
+        .sliced .real-knife {
+            transform: translateY(120px) rotate(-45deg);
+            opacity: 0;
+        }
+
+        .cut-status {
+            font-weight: bold;
+            color: #27ae60;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Interactive Envelope */
+        .envelope-container {
+            width: 140px;
+            height: 100px;
+            background: #ff758c;
+            border-radius: 12px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.4);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.05);
+            background: #ff4757;
+        }
+
+        .envelope-icon {
+            font-size: 3.5rem;
+            color: #ffffff;
+        }
+
+        /* Heart Badge */
+        .heart-badge {
+            display: inline-block;
+            background: #ffeaa7;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            color: #d63031;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Love Message Box Styling */
+        .love-message-box {
+            background: rgba(255, 234, 238, 0.7);
+            border-left: 4px solid #ff4757;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        .love-message-box h3 {
+            color: #d63031;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .love-message-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .love-message-box li {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .love-message-box li::before {
+            content: '💖';
+            position: absolute;
+            left: 0;
+            font-size: 0.8rem;
+            top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Transition Screen (Prevents White Screen Flashes) -->
+    <div id="transition-overlay">✨💖✨</div>
+
+    <div class="container">
+
+        <!-- STEP 0: Ask Name -->
+        <div class="step active" id="step-0">
+            <div class="big-icon">🔒</div>
+            <h2>Who are you? 🌸</h2>
+            <p>Please enter your name to unlock your birthday surprise!</p>
+            <input type="text" id="nameInput" class="input-box" placeholder="Enter your name...">
+            <p class="error-msg" id="nameError">Oops! Wrong name, try again! 🙈</p>
+            <button class="btn" onclick="verifyName()">Submit ✨</button>
+        </div>
+
+        <!-- STEP 0.5: Secret Question -->
+        <div class="step" id="step-husband">
+            <div class="big-icon">💍</div>
+            <h2>One Secret Question... 😉</h2>
+            <p>Enter your Future Husband's name to proceed!</p>
+            <input type="text" id="husbandInput" class="input-box" placeholder="Enter husband's name...">
+            <p class="error-msg" id="husbandError">Incorrect answer! Think again! ❤️</p>
+            <button class="btn" onclick="verifyHusband()">Unlock 🎉</button>
+        </div>
+
+        <!-- NEW STEP: Are you ready for next step? (Trick Question) -->
+        <div class="step" id="step-ready-question">
+            <div class="big-icon">🤔🎉</div>
+            <h2>Wait a minute...</h2>
+            <p>Are you really ready for your special Birthday Surprise?</p>
+            <div class="btn-group" id="trick-btn-group">
+                <button class="btn" onclick="transitionTo('step-1')">YES! 😍</button>
+                <button class="btn btn-secondary" id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">NO 😜</button>
+            </div>
+        </div>
+
+        <!-- STEP 1: Welcome Screen -->
+        <div class="step" id="step-1">
+            <div class="big-icon">🎁</div>
+            <h1>Hey Sawera! 💖</h1>
+            <p>Today is all about celebrating YOU! Are you excited?</p>
+            <button class="btn" onclick="transitionTo('step-2')">Let's Go! ✨</button>
+        </div>
+
+        <!-- STEP 2: Age Celebration -->
+        <div class="step" id="step-2">
+            <h2>Happy Birthday! 🎉</h2>
+            <p>You are officially turning...</p>
+            <div class="age-number">18</div>
+            <p class="italic-text">Welcome to adulthood! 🥳✨</p>
+            <p class="small-text">(Don't worry, you still get to act like a kid whenever you want!)</p>
+            <button class="btn" onclick="transitionTo('step-3')">Time to Cut Cake! 🎂</button>
+        </div>
+
+        <!-- STEP 3: Realistic Cake Cutting -->
+        <div class="step" id="step-3">
+            <h2>Cut Your Cake! 🍰</h2>
+            <p>Tap the cake to slice it with the knife!</p>
+            
+            <div class="real-cake-stage" id="cake-stage" onclick="sliceRealisticCake()">
+                <div class="real-knife" id="real-knife">🔪</div>
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+                <div class="cake-wrapper" id="cake-wrapper">
+                    <div class="cake-half cake-left"></div>
+                    <div class="cake-half cake-right"></div>
+                </div>
+            </div>
+            
+            <p class="cut-status" id="cut-status">✨ YAY! Beautifully Cut! ✨</p>
+            
+            <button class="btn" id="cake-next-btn" style="display: none;" onclick="transitionTo('step-4')">Make a Wish 🌟</button>
+        </div>
+
+        <!-- STEP 4: Make a Wish Envelope -->
+        <div class="step" id="step-4">
+            <h2>Make a Wish 🌠</h2>
+            <p>Close your eyes, make a special wish, and click the envelope!</p>
+            
+            <div class="envelope-container" onclick="openEnvelope()">
+                <div class="envelope-icon" id="envelope-icon">✉️</div>
+            </div>
+            
+            <p id="wish-status" style="display: none;" class="italic-text">Your wish has been locked in! 🔒✨</p>
+            
+            <button class="btn" id="wish-next-btn" style="display: none;" onclick="transitionTo('step-5')">Read Your Letter 💌</button>
+        </div>
+
+        <!-- STEP 5: Final Love Note -->
+        <div class="step" id="step-5">
+            <span class="heart-badge">💖 To Sawera 💖</span>
+            <h1 class="script-font">Dearest Sawera,</h1>
+            <p>Wishing you a year filled with endless laughter, love, and success. May all your dreams come true!</p>
+            
+            <div class="love-message-box">
+                <h3>Message for my love ❤️</h3>
+                <ul>
+                    <li>I am loyal with you.</li>
+                    <li>I won't leave you in any condition.</li>
+                    <li>I love you so much!</li>
+                    <li>Main hamesha aapka hi ho kar rahunga.</li>
+                </ul>
+            </div>
+
+            <p class="italic-text">Keep shining bright always! 🌟</p>
+            <div class="btn-group">
+                <button class="btn" onclick="triggerMassiveConfetti()">More Confetti! 🎉</button>
+                <button class="btn btn-secondary" onclick="restartExperience()">Start Over 🔄</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let cakeIsCut = false;
+
+        // --- Smooth Celebration Transition (Fixes White Screen Issue) ---
+        function transitionTo(targetStepId) {
+            const overlay = document.getElementById('transition-overlay');
+            
+            // Show overlay shimmer
+            overlay.classList.add('active');
+            
+            // Fire mini sparkle confetti during transition
+            fireConfetti();
+
+            setTimeout(() => {
+                // Hide all steps
+                const steps = document.querySelectorAll('.step');
+                steps.forEach(step => step.classList.remove('active'));
+                
+                // Show target step
+                document.getElementById(targetStepId).classList.add('active');
+
+                // Trigger step-specific effects
+                if (targetStepId === 'step-2' || targetStepId === 'step-5') {
+                    triggerMassiveConfetti();
+                }
+
+                // Hide overlay
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                }, 200);
+            }, 300);
+        }
+
+        // --- Verifications ---
+        function verifyName() {
+            const name = document.getElementById('nameInput').value.trim().toLowerCase();
+            const error = document.getElementById('nameError');
+            
+            if (name === 'sawera') {
+                error.style.display = 'none';
+                transitionTo('step-husband');
+            } else {
+                error.style.display = 'block';
+            }
+        }
+
+        function verifyHusband() {
+            const husbandName = document.getElementById('husbandInput').value.trim().toLowerCase();
+            const error = document.getElementById('husbandError');
+            
+            if (husbandName === 'zain') {
+                error.style.display = 'none';
+                transitionTo('step-ready-question');
+            } else {
+                error.style.display = 'block';
+            }
+        }
+
+        // --- Moving NO Button Logic ---
+        function moveNoButton() {
+            const noBtn = document.getElementById('no-btn');
+            const group = document.getElementById('trick-btn-group');
+            
+            // Generate random offset within the card
+            const x = (Math.random() - 0.5) * 200;
+            const y = (Math.random() - 0.5) * 120;
+
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // --- Realistic Cake Slice Function ---
+        function sliceRealisticCake() {
+            if (cakeIsCut) return;
+            cakeIsCut = true;
+
+            const stage = document.getElementById('cake-stage');
+            const cutStatus = document.getElementById('cut-status');
+            const cakeNextBtn = document.getElementById('cake-next-btn');
+
+            stage.classList.add('sliced');
+            cutStatus.style.opacity = '1';
+            cakeNextBtn.style.display = 'inline-block';
+
+            // Celebration Confetti
+            fireConfetti();
+            setTimeout(fireConfetti, 300);
+        }
+
+        // --- Interactive Envelope ---
+        function openEnvelope() {
+            const envelopeIcon = document.getElementById('envelope-icon');
+            const wishStatus = document.getElementById('wish-status');
+            const wishNextBtn = document.getElementById('wish-next-btn');
+
+            envelopeIcon.textContent = '💌';
+            wishStatus.style.display = 'block';
+            wishNextBtn.style.display = 'inline-block';
+
+            fireConfetti();
+        }
+
+        // --- Confetti Functions ---
+        function fireConfetti() {
+            confetti({
+                particleCount: 70,
+                spread: 60,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function triggerMassiveConfetti() {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        // --- Restart Experience ---
+        function restartExperience() {
+            cakeIsCut = false;
+            document.getElementById('cake-stage').classList.remove('sliced');
+            document.getElementById('cut-status').style.opacity = '0';
+            document.getElementById('cake-next-btn').style.display = 'none';
+
+            document.getElementById('envelope-icon').textContent = '✉️';
+            document.getElementById('wish-status').style.display = 'none';
+            document.getElementById('wish-next-btn').style.display = 'none';
+
+            const noBtn = document.getElementById('no-btn');
+            if (noBtn) noBtn.style.transform = 'translate(0,0)';
+
+            transitionTo('step-1');
+        }
+    </script>
+</body>
+</html>
