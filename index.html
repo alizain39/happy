@@ -3,102 +3,206 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy 18th Birthday Sawera!</title>
+  <title>Happy 18th Birthday Sawera! ✨</title>
+  <!-- Google Fonts & Canvas Confetti -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      background: linear-gradient(135deg, #1a0b16 0%, #3a152d 50%, #5c1d38 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow-x: hidden;
+      color: #333;
     }
 
+    /* Glassmorphism Container */
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 35px 25px;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 182, 193, 0.3);
       text-align: center;
-      max-width: 450px;
+      max-width: 500px;
       width: 90%;
       position: relative;
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(25px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .screen { display: none; }
     .screen.active { display: block; }
 
-    h2 { color: #d63384; margin-bottom: 15px; }
-    p { color: #555; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.5; }
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      color: #b81d54;
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
 
     input[type="text"] {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #ffb6c1;
-      border-radius: 10px;
+      padding: 14px;
+      border: 2px solid #e2a8b8;
+      border-radius: 12px;
       outline: none;
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-bottom: 15px;
       text-align: center;
+      transition: all 0.3s;
+      background: #fff0f4;
     }
 
-    input[type="text"]:focus { border-color: #d63384; }
+    input[type="text"]:focus {
+      border-color: #b81d54;
+      box-shadow: 0 0 10px rgba(184, 29, 84, 0.2);
+      background: #fff;
+    }
 
     button {
-      background: linear-gradient(45deg, #ff4081, #ff80ab);
+      background: linear-gradient(135deg, #d63384 0%, #b81d54 100%);
       color: white;
       border: none;
-      padding: 12px 25px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 25px;
+      padding: 14px 28px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+      box-shadow: 0 8px 20px rgba(184, 29, 84, 0.35);
       transition: all 0.3s ease;
-      margin: 5px;
+      margin: 8px 4px;
     }
 
     button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(255, 64, 129, 0.6);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 25px rgba(184, 29, 84, 0.5);
     }
 
     .error-msg {
-      color: #dc3545;
-      font-size: 0.9rem;
-      margin-top: -10px;
-      margin-bottom: 10px;
+      color: #e63946;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: -5px;
+      margin-bottom: 15px;
       display: none;
     }
 
+    /* Screen 4 Wishes Design */
     .age-badge {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #ff1493;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      margin: 10px 0;
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #b81d54, #ff6b8b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 5px 0 15px 0;
+      letter-spacing: 1px;
     }
 
-    /* Sad Pop-up modal */
+    .wishes-box {
+      background: rgba(255, 240, 245, 0.8);
+      border-left: 4px solid #b81d54;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 0.98rem;
+      color: #444;
+      max-height: 250px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .wishes-box p {
+      color: #444;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Interactive Cake Styling */
+    .cake-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin: 15px auto;
+      cursor: pointer;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .cake-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .knife-overlay {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      font-size: 3.5rem;
+      transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      transform: rotate(-45deg);
+      filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.4));
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .knife-overlay.cut {
+      top: 45%;
+      right: 45%;
+      transform: rotate(20deg) scale(1.2);
+    }
+
+    .cut-line {
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      width: 3px;
+      height: 0%;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 10px #ffb6c1;
+      transition: height 0.6s ease 0.4s;
+      z-index: 5;
+    }
+
+    .cut-line.active {
+      height: 55%;
+    }
+
+    /* Modal for Sad Response */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(5px);
       justify-content: center;
       align-items: center;
       z-index: 100;
@@ -106,139 +210,54 @@
 
     .modal-content {
       background: white;
-      padding: 25px;
-      border-radius: 15px;
+      padding: 30px;
+      border-radius: 20px;
       text-align: center;
-      max-width: 300px;
+      max-width: 320px;
+      animation: popIn 0.3s ease;
     }
 
-    /* Cake Styling */
-    .cake-container {
-      position: relative;
-      width: 150px;
-      height: 140px;
-      margin: 30px auto 20px auto;
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Envelope & Letter Styling */
+    .envelope-box {
+      font-size: 4rem;
+      margin: 15px auto;
       cursor: pointer;
+      display: inline-block;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
     }
 
-    .cake-layer {
-      width: 100%;
-      height: 80px;
-      background: #ff80ab;
-      border-radius: 10px 10px 0 0;
-      position: absolute;
-      bottom: 0;
-      box-shadow: inset 0 10px 0 #ff4081, inset 0 -15px 0 #f8bbd0;
+    .envelope-box:hover {
+      transform: scale(1.15) rotate(5deg);
     }
 
-    .cake-top {
-      width: 100%;
-      height: 30px;
-      background: #fff;
-      border-radius: 10px 10px 0 0;
-      position: absolute;
-      top: 30px;
-    }
-
-    .candle {
-      width: 10px;
-      height: 30px;
-      background: linear-gradient(to bottom, #fff, #ffeb3b);
-      position: absolute;
-      top: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .flame {
-      width: 12px;
-      height: 18px;
-      background: orange;
-      border-radius: 50% 50% 20% 20%;
-      position: absolute;
-      top: -16px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 0 10px orange, 0 0 20px yellow;
-      animation: burn 0.5s infinite alternate;
-    }
-
-    @keyframes burn {
-      from { transform: translateX(-50%) scale(1); }
-      to { transform: translateX(-50%) scale(1.1); }
-    }
-
-    .knife {
-      position: absolute;
-      top: -40px;
-      right: -30px;
-      font-size: 3rem;
-      transition: all 0.8s ease-in-out;
-      transform: rotate(-45deg);
-    }
-
-    .knife.cut {
-      top: 50px;
-      right: 50px;
-      transform: rotate(15deg) scale(1.1);
-    }
-
-    .cake-cut-line {
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      width: 4px;
-      height: 0;
-      background: #d63384;
-      transition: height 0.5s ease 0.5s;
-    }
-
-    .cake-cut-line.active { height: 110px; }
-
-    /* Envelope Styling */
-    .envelope-wrapper {
-      margin: 20px auto;
-      cursor: pointer;
-    }
-
-    .envelope {
-      width: 120px;
-      height: 80px;
-      background: #ff4081;
-      margin: 0 auto;
-      position: relative;
-      border-radius: 5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 2.5rem;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: transform 0.3s;
-    }
-
-    .envelope:hover { transform: scale(1.1); }
-
-    .letter {
-      background: #fff;
+    .letter-content {
+      background: #fffafb;
+      border: 2px dashed #e2a8b8;
       padding: 20px;
-      border-radius: 10px;
-      border: 2px dashed #ff80ab;
+      border-radius: 15px;
       text-align: left;
-      font-style: italic;
-      color: #444;
-      margin-top: 15px;
       display: none;
-      animation: fadeIn 0.8s forwards;
+      margin-top: 15px;
+      animation: fadeIn 0.8s ease;
     }
 
-    .letter p { font-size: 0.95rem; margin-bottom: 10px; color: #d63384; }
+    .letter-content p {
+      color: #a01a48;
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+    }
 
-    /* Sky Canvas */
+    /* Sky Fireworks Finale */
     #skyCanvas {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #0b0c10;
+      background: #0d0614;
       z-index: 200;
       display: none;
     }
@@ -248,91 +267,101 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       color: #fff;
-      font-size: 2.5rem;
       text-align: center;
       z-index: 201;
-      text-shadow: 0 0 20px #ff4081, 0 0 30px #ff4081;
       display: none;
       width: 90%;
+    }
+
+    .sky-text h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      color: #ff80ab;
+      text-shadow: 0 0 20px #ff4081, 0 0 40px #ff4081;
+    }
+
+    .sky-text p {
+      font-size: 1.5rem;
+      color: #ffe0ec;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    
+  <div class="card" id="mainCard">
+
     <!-- Screen 1: First Question -->
     <div id="screen1" class="screen active">
-      <h2>Welcome! ✨</h2>
-      <p>What is your name?</p>
-      <input type="text" id="nameInput" placeholder="Enter name...">
-      <div id="error1" class="error-msg">Incorrect Name! Try again.</div>
-      <button onclick="checkName()">Submit</button>
+      <h2>Welcome Beautiful! ✨</h2>
+      <p>Please enter your name to proceed:</p>
+      <input type="text" id="nameInput" placeholder="Enter your name...">
+      <div id="error1" class="error-msg">⚠️ Incorrect Name! Please try again.</div>
+      <button onclick="checkName()">Submit 💕</button>
     </div>
 
     <!-- Screen 2: Second Question -->
     <div id="screen2" class="screen">
       <h2>One More Question 💍</h2>
-      <p>What is your future husband name?</p>
+      <p>What is your future husband's name?</p>
       <input type="text" id="husbandInput" placeholder="Enter name...">
-      <div id="error2" class="error-msg">Incorrect Name! Try again.</div>
-      <button onclick="checkHusband()">Submit</button>
+      <div id="error2" class="error-msg">⚠️ Incorrect Name! Try again.</div>
+      <button onclick="checkHusband()">Submit ❤️</button>
     </div>
 
     <!-- Screen 3: Ready for Surprise -->
     <div id="screen3" class="screen">
       <h2>Hey Sawera! ❤️</h2>
-      <p>Are you ready for a huge surprise?</p>
+      <p>Are you ready for a huge surprise designed just for you?</p>
       <button onclick="goToWishes()">YES! 🎉</button>
       <button onclick="showSadModal()">NO 😢</button>
     </div>
 
     <!-- Screen 4: Wishes Screen -->
     <div id="screen4" class="screen">
-      <h2>Happy Birthday Dear Sawera! 🎂</h2>
+      <h2>Happy Birthday Dear Sawera! 🎉</h2>
       <div class="age-badge">18 Years</div>
-      <p>
-        May your 18th birthday be as bright, beautiful, and wonderful as you are! 
-        Welcome to adulthood! May this new chapter bring you endless joy, love, 
-        success, and all the happiness in the world. Keep smiling always! ✨💖
-      </p>
+      
+      <div class="wishes-box">
+        <p>🌟 <strong>Welcome to Adulthood!</strong> On this milestone 18th birthday, I wish you a universe filled with endless happiness, boundless love, and dream-come-true moments!</p>
+        <p>🌸 May your journey ahead be as elegant, vibrant, and sweet as you are. May every single day bring you closer to your grandest dreams.</p>
+        <p>💖 Always keep that beautiful, radiant smile on your face. You deserve every joy in the world today and forever!</p>
+        <p>✨ Cheers to 18 years of incredible beauty, grace, and perfection!</p>
+      </div>
+
       <button onclick="goToCake()">Are you ready for cake ceremony? 🍰</button>
     </div>
 
     <!-- Screen 5: Cake Cutting -->
     <div id="screen5" class="screen">
       <h2>Cut The Cake 🎂</h2>
-      <p>Tap on the cake to cut it!</p>
-      
-      <div class="cake-container" onclick="cutCake()">
-        <div class="knife" id="knife">🔪</div>
-        <div class="candle"><div class="flame" id="flame"></div></div>
-        <div class="cake-top"></div>
-        <div class="cake-layer"></div>
-        <div class="cake-cut-line" id="cutLine"></div>
+      <p>Click on the cake to cut it!</p>
+
+      <div class="cake-wrapper" onclick="cutCake()">
+        <div class="knife-overlay" id="knife">🔪</div>
+        <div class="cut-line" id="cutLine"></div>
+        <img src="1786851211744.png" alt="18th Birthday Cake" class="cake-img">
       </div>
 
-      <button id="cakeNextBtn" style="display:none;" onclick="goToLetter()">Next ➡️</button>
+      <button id="cakeNextBtn" style="display:none; margin-top:15px;" onclick="goToLetter()">Next ➡️</button>
     </div>
 
     <!-- Screen 6: Love Letter -->
     <div id="screen6" class="screen">
       <h2>A Special Note For You 💌</h2>
-      <p>Click the envelope to open your message!</p>
-      
-      <div class="envelope-wrapper" onclick="openLetter()">
-        <div class="envelope">💌</div>
+      <p>Tap the envelope to open your letter!</p>
+
+      <div class="envelope-box" onclick="openLetter()">💌</div>
+
+      <div class="letter-content" id="loveLetter">
+        <p>💖 <strong>I Love You So Much!</strong></p>
+        <p>🤝 <strong>I am completely loyal to you today and forever.</strong></p>
+        <p>🛡️ <strong>I will never leave your side under any condition.</strong></p>
+        <p>💓 <strong>You are the irreplaceable piece of my heart and my whole world.</strong></p>
+        <p>✨ Walking through life with you is my sweetest blessing. Happy 18th Birthday once again, my star! 🌟</p>
       </div>
 
-      <div class="letter" id="loveLetter">
-        <p>❤️ <strong>I love you so much!</strong></p>
-        <p>🤝 <strong>I am loyal with you forever.</strong></p>
-        <p>🛡️ <strong>I will not leave you under any condition.</strong></p>
-        <p>💓 <strong>You are the piece of my heart and my whole world.</strong></p>
-        <p>✨ Thank you for filling my life with happiness. Happy 18th Birthday once again, my star! 🌟</p>
-      </div>
-
-      <button id="letterNextBtn" style="display:none; margin-top:15px;" onclick="startSkyFinale()">Final Surprise 🎆</button>
+      <button id="letterNextBtn" style="display:none; margin-top:15px;" onclick="startSkyFinale()">Grand Finale Fireworks 🎆</button>
     </div>
 
   </div>
@@ -340,33 +369,42 @@
   <!-- Sad Modal -->
   <div class="modal" id="sadModal">
     <div class="modal-content">
-      <h2 style="font-size: 3rem;">😭💔😢</h2>
-      <p>Oh no... Why NO? Please say YES!</p>
-      <button onclick="closeSadModal()">Try Again</button>
+      <h2 style="font-size: 3.5rem; margin-bottom:10px;">😭💔😢</h2>
+      <p style="color:#333; font-weight:600;">Oh no... Why did you click NO? Please say YES!</p>
+      <button onclick="closeSadModal()">Try Again 💕</button>
     </div>
   </div>
 
   <!-- Sky Fireworks Canvas -->
   <canvas id="skyCanvas"></canvas>
   <div class="sky-text" id="skyText">
-    🎆 Happy 18th Birthday Sawera! 🎆<br>
-    <span style="font-size: 1.5rem; color: #ff80ab;">Forever & Always ❤️</span>
+    <h1>Happy 18th Birthday Sawera! 🎆</h1>
+    <p>Forever & Always Yours ❤️</p>
   </div>
 
   <script>
-    // Trigger Confetti Pop-up
-    function triggerPop() {
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.7 }
-      });
+    // Rich Multi-Color Confetti Burst
+    function triggerRichConfetti() {
+      var count = 200;
+      var defaults = { origin: { y: 0.7 } };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, { spread: 26, startVelocity: 55, colors: ['#ff4081', '#ffd700'] });
+      fire(0.2, { spread: 60, colors: ['#ffffff', '#ff80ab'] });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, colors: ['#e91e63', '#ffeb3b'] });
+      fire(0.1, { spread: 120, startVelocity: 45 });
     }
 
     function switchScreen(currentId, nextId) {
       document.getElementById(currentId).classList.remove('active');
       document.getElementById(nextId).classList.add('active');
-      triggerPop(); // Celebration popup on every transition
+      triggerRichConfetti();
     }
 
     // Question 1 Check
@@ -399,17 +437,11 @@
       document.getElementById('sadModal').style.display = 'none';
     }
 
-    // Navigate to Wishes
-    function goToWishes() {
-      switchScreen('screen3', 'screen4');
-    }
+    // Screen Transitions
+    function goToWishes() { switchScreen('screen3', 'screen4'); }
+    function goToCake() { switchScreen('screen4', 'screen5'); }
 
-    // Navigate to Cake
-    function goToCake() {
-      switchScreen('screen4', 'screen5');
-    }
-
-    // Interactive Cake Cut
+    // Cake Cutting Animation
     let cakeCutted = false;
     function cutCake() {
       if(cakeCutted) return;
@@ -417,29 +449,25 @@
 
       document.getElementById('knife').classList.add('cut');
       document.getElementById('cutLine').classList.add('active');
-      document.getElementById('flame').style.display = 'none';
 
       setTimeout(() => {
-        triggerPop();
+        triggerRichConfetti();
         document.getElementById('cakeNextBtn').style.display = 'inline-block';
-      }, 1000);
+      }, 900);
     }
 
-    // Navigate to Letter
-    function goToLetter() {
-      switchScreen('screen5', 'screen6');
-    }
+    function goToLetter() { switchScreen('screen5', 'screen6'); }
 
     // Open Letter
     function openLetter() {
       document.getElementById('loveLetter').style.display = 'block';
       document.getElementById('letterNextBtn').style.display = 'inline-block';
-      triggerPop();
+      triggerRichConfetti();
     }
 
     // Sky Fireworks Finale
     function startSkyFinale() {
-      document.querySelector('.card').style.display = 'none';
+      document.getElementById('mainCard').style.display = 'none';
       const canvas = document.getElementById('skyCanvas');
       const text = document.getElementById('skyText');
       canvas.style.display = 'block';
@@ -453,16 +481,16 @@
 
       function createFirework() {
         const x = Math.random() * canvas.width;
-        const y = Math.random() * (canvas.height / 2);
-        const colors = ['#ff4081', '#00e676', '#ffeb3b', '#00e5ff', '#ff9100'];
+        const y = Math.random() * (canvas.height * 0.6);
+        const colors = ['#ff4081', '#ffeb3b', '#00e5ff', '#e91e63', '#ffffff', '#ff9100'];
         const color = colors[Math.floor(Math.random() * colors.length)];
 
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 50; i++) {
           particles.push({
             x: x, y: y,
-            dx: (Math.random() - 0.5) * 6,
-            dy: (Math.random() - 0.5) * 6,
-            size: Math.random() * 3 + 1,
+            dx: (Math.random() - 0.5) * 8,
+            dy: (Math.random() - 0.5) * 8,
+            size: Math.random() * 3 + 1.5,
             color: color,
             alpha: 1
           });
@@ -470,7 +498,7 @@
       }
 
       function animate() {
-        ctx.fillStyle = 'rgba(11, 12, 16, 0.2)';
+        ctx.fillStyle = 'rgba(13, 6, 20, 0.2)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach((p, index) => {
@@ -489,7 +517,7 @@
         requestAnimationFrame(animate);
       }
 
-      setInterval(createFirework, 400);
+      setInterval(createFirework, 350);
       animate();
     }
   </script>
