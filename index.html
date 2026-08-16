@@ -142,25 +142,75 @@
       font-size: 0.95rem;
       line-height: 1.6;
     }
+    /* CSS Cake Styling */
+.cake-wrapper {
+  position: relative;
+  width: 200px;
+  height: 220px;
+  margin: 20px auto;
+  cursor: pointer;
+}
 
-    /* Interactive Cake Styling */
-    .cake-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 380px;
-      margin: 15px auto;
-      cursor: pointer;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+.cake {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+}
 
-    .cake-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.5s ease;
-    }
+.layer {
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+
+.layer.top { background: #ffb6c1; width: 60%; margin: 0 auto 4px auto; }
+.layer.mid { background: #ffffff; width: 80%; margin: 0 auto 4px auto; }
+.layer.bottom { background: #d63384; width: 100%; }
+
+.candle {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 25px;
+  background: #ffeb3b;
+  border-radius: 4px;
+}
+
+.flame {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 15px;
+  background: orange;
+  border-radius: 50% 50% 20% 20%;
+  box-shadow: 0 0 8px orange;
+}
+
+.knife-overlay {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  font-size: 3rem;
+  transition: all 0.8s ease;
+  transform: rotate(-45deg);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.knife-overlay.cut {
+  top: 45%;
+  right: 35%;
+  transform: rotate(15deg) scale(1.1);
+}
+
+    
 
     .knife-overlay {
       position: absolute;
@@ -293,7 +343,7 @@
 
     <!-- Screen 1: First Question -->
     <div id="screen1" class="screen active">
-      <h2>Welcome Beautiful! ✨</h2>
+      <h2>Welcome My dearest! ✨</h2>
       <p>Please enter your name to proceed:</p>
       <input type="text" id="nameInput" placeholder="Enter your name...">
       <div id="error1" class="error-msg">⚠️ Incorrect Name! Please try again.</div>
@@ -331,21 +381,25 @@
 
       <button onclick="goToCake()">Are you ready for cake ceremony? 🍰</button>
     </div>
+<!-- Screen 5: Cake Cutting -->
+<div id="screen5" class="screen">
+  <h2>Cut The Cake 🎂</h2>
+  <p>Cake par click karein cutting ke liye!</p>
 
-    <!-- Screen 5: Cake Cutting -->
-    <div id="screen5" class="screen">
-      <h2>Cut The Cake 🎂</h2>
-      <p>Click on the cake to cut it!</p>
-
-      <div class="cake-wrapper" onclick="cutCake()">
-        <div class="knife-overlay" id="knife">🔪</div>
-        <div class="cut-line" id="cutLine"></div>
-        <img src="1786851211744.png" alt="18th Birthday Cake" class="cake-img">
-      </div>
-
-      <button id="cakeNextBtn" style="display:none; margin-top:15px;" onclick="goToLetter()">Next ➡️</button>
+  <div class="cake-wrapper" onclick="cutCake()">
+    <div class="knife-overlay" id="knife">🔪</div>
+    <!-- Simple CSS Cake -->
+    <div class="cake">
+        <div class="candle"><div class="flame"></div></div>
+        <div class="layer top"></div>
+        <div class="layer mid"></div>
+        <div class="layer bottom"></div>
     </div>
+  </div>
 
+  <button id="cakeNextBtn" style="display:none; margin-top:15px;" onclick="switchScreen('screen5', 'screen6')">Next ➡️</button>
+</div>
+  
     <!-- Screen 6: Love Letter -->
     <div id="screen6" class="screen">
       <h2>A Special Note For You 💌</h2>
@@ -369,7 +423,7 @@
   <!-- Sad Modal -->
   <div class="modal" id="sadModal">
     <div class="modal-content">
-      <h2 style="font-size: 3.5rem; margin-bottom:10px;">😭💔😢</h2>
+      <h2 style="font-size: 3.5rem; margin-bottom:10px;">🫠😕🫨</h2>
       <p style="color:#333; font-weight:600;">Oh no... Why did you click NO? Please say YES!</p>
       <button onclick="closeSadModal()">Try Again 💕</button>
     </div>
